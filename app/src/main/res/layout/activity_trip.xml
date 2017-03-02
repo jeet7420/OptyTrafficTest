@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/mytoolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_source"
+            android:text="SOURCE"
+            android:width="100dp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/et_source"
+            android:width="180dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="text"
+            android:lines="1"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:id="@+id/button1"
+            android:width="20dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Map" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_destination"
+            android:text="DESTINATION"
+            android:textStyle="bold"
+            android:width="100dp"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/et_destination"
+            android:width="180dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="text"
+            android:lines="1"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:id="@+id/button2"
+            android:width="20dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Map" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_vehicle"
+            android:text="VEHICLE"
+            android:width="100dp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="180dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rb_car"
+                android:text="Car"
+                android:paddingRight="10dp"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rb_bike"
+                android:text="Bike"
+                android:paddingLeft="10dp"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_time"
+            android:textStyle="bold"
+            android:text="TIME RANGE"
+            android:width="100dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_start_time"
+            android:width="80dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_spacer"
+            android:text="-"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:width="20dp"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_end_time"
+            android:width="80dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="30dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <Button
+            android:text="Submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_submit"
+            android:width="100dp" />
+
+    </LinearLayout>
+</LinearLayout>
+
+</ScrollView>

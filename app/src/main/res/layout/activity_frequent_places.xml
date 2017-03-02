@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_frequent_places"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="com.optytraffictest.FrequentPlaces">
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/mytoolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/label1"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Please provide address below or use location picker"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/address1"
+            android:layout_height="wrap_content"
+            android:layout_weight="80"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:id="@+id/button1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Map"
+            android:layout_weight="20"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/label2"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:text="Label" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/label3"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:text="LOC3" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/address3"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:id="@+id/button3"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="20"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:id="@+id/button4"
+        android:text="submit"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="20"/>
+
+</LinearLayout>

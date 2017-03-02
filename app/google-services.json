@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "632413750014",
+    "project_id": "leafy-unity-152108"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632413750014:android:254a8ec24cd411c7",
+        "android_client_info": {
+          "package_name": "com.optytraffictest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "632413750014-r5k243cdm6af58p74kd7e8vpp7p53rra.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.optytraffictest",
+            "certificate_hash": "571981889081B49555DEB92D8E24742EC299CC22"
+          }
+        },
+        {
+          "client_id": "632413750014-srk3u0afjv47m8b7lh48ev4mn5rvujqp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoRfrLgApnDTTVr8C-_odaPojpisCGr2I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

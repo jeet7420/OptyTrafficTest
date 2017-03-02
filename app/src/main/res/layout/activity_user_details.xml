@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_user_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.optytraffictest.UserDetails">
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/mytoolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_firstname"
+            android:text="FIRST NAME"
+            android:width="20dp"
+            android:layout_weight="30"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/et_firstname"
+            android:layout_weight="70"
+            android:width="80dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_lastname"
+            android:text="LAST NAME"
+            android:width="20dp"
+            android:layout_weight="30"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/et_lastname"
+            android:width="80dp"
+            android:layout_weight="70"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_dob"
+            android:text="DOB"
+            android:width="30dp"
+            android:layout_weight="40"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="60dp"
+            android:layout_weight="55"
+            android:id="@+id/et_dob" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="5dp"
+            android:layout_weight="5"
+            android:id="@+id/btn_date"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_cno"
+            android:text="CONTACT"
+            android:width="20dp"
+            android:layout_weight="30"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/et_cno"
+            android:width="80dp"
+            android:layout_weight="70"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/tv_gender"
+                android:text="GENDER"
+                android:width="40dp"
+                android:layout_weight="30"
+                android:layout_height="wrap_content" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="60dp"
+                android:layout_weight="70"
+                android:orientation="horizontal">
+            
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rb_gender_male"
+                        android:text="@string/GenderMale" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rb_gender_female"
+                        android:text="@string/GenderFemale" />
+            
+            </RadioGroup>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_email"
+            android:text="EMAIL"
+            android:width="20dp"
+            android:layout_weight="30"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/et_email"
+            android:width="80dp"
+            android:layout_weight="70"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_city"
+            android:text="CITY"
+            android:width="20dp"
+            android:layout_weight="30"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/et_city"
+            android:width="80dp"
+            android:layout_weight="70"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_nationality"
+            android:text="COUNTRY"
+            android:width="20dp"
+            android:layout_weight="30"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:id="@+id/et_nationality"
+            android:width="80dp"
+            android:layout_weight="70"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="30dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:weightSum="100">
+
+    <Button
+        android:text="Submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_submit"
+        android:layout_weight="30" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
+</ScrollView>
