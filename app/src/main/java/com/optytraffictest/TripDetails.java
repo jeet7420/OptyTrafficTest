@@ -4,8 +4,11 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +26,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,9 +37,13 @@ import java.util.HashMap;
 
 import static com.optytraffictest.R.id.rb_car;
 import static com.optytraffictest.UserDetails.dialog_id;
+import com.optytraffictestDA.MainActivityDA;
+import com.optytraffictestDA.StaticValues;
 
 public class TripDetails extends AppCompatActivity {
 
+    DatabaseHelper myDb;
+    SQLiteDatabase db;
     Button btn1, btn2, btn_submit;
     EditText et1, et2, et3, et4;
     String source_address, destination_address;
@@ -48,17 +56,24 @@ public class TripDetails extends AppCompatActivity {
     static final int dialog_id1 = 0;
     static final int dialog_id2 = 1;
     private HTTPURLConnection service;
+    private com.optytraffictestDA.HTTPURLConnection getAllMarkers;
     HashMap<String, String> postDataParams;
     private ProgressDialog pDialog;
     private String path = "http://brings.co.in/OptiTraffic/rest/Calc/CalcRes";
-    String response = "";
+    JSONArray response;
     String source, destination, vehicle, starttime, endtime;
     RadioButton rb_car, rb_bike;
+    String T_STARTLAT, T_STARTLONG, T_ENDLAT, T_ENDLONG, T_STARTTIME, T_ENDTIME, T_VEHICLE;
+    String location_id = "1";
+    String markerId, latitude, longitude, description, locationId;
+    String dbMarkerId, dbLatitude, dbLongitude, dbLocationId, dbDescription;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip);
+        myDb = new DatabaseHelper(this);
         //just a change
+        vehicle = "bike";
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(myToolbar);
@@ -87,6 +102,8 @@ public class TripDetails extends AppCompatActivity {
 
         starttime = et3.getText().toString();
         endtime = et4.getText().toString();
+
+
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,10 +138,52 @@ public class TripDetails extends AppCompatActivity {
         });
 
         service=new HTTPURLConnection();
+        getAllMarkers=new com.optytraffictestDA.HTTPURLConnection();
 
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                db = myDb.getWritableDatabase();
+
+                db.execSQL("DELETE FROM TRIP");
+
+                System.out.println("JEET : " + et1.getText().toString() + " : " + et2.getText().toString() + " : " + et3.getText().toString() + " : " + et4.getText().toString() + " : " + vehicle);
+
+                ContentValues values = new ContentValues();
+
+                values.put("STARTLAT", source_latitude);
+                values.put("STARTLONG", source_longitude);
+                values.put("ENDLAT", destination_latitude);
+                values.put("ENDLONG", destination_longitude);
+                values.put("STARTTIME", et3.getText().toString());
+                values.put("ENDTIME", et4.getText().toString());
+                values.put("VEHICLE", vehicle);
+
+                db.insert("TRIP", null, values);
+
+                Cursor c = myDb.showData();
+
+                c.moveToFirst();
+                do{
+                    T_STARTLAT = c.getString(0);
+                    T_STARTLONG = c.getString(1);
+                    T_ENDLAT = c.getString(2);
+                    T_ENDLONG = c.getString(3);
+                    T_STARTTIME = c.getString(4);
+                    T_ENDTIME = c.getString(5);
+                    T_VEHICLE = c.getString(6);
+                }while(c.moveToNext());
+
+                System.out.println("Main Module Data : " + " STARTLAT - " + T_STARTLAT + " STARTLONG - " + T_STARTLONG + " ENDLAT - " + T_ENDLAT +
+                        " ENDLONG - " + T_ENDLONG + " STARTTIME - " +  T_STARTTIME + " ENDTIME - " +  T_ENDTIME + " VEHICLE - " + T_VEHICLE);
+
+                //Toast.makeText(getApplicationContext(), "Main Module Data", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), T_STARTLAT, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), T_STARTLONG, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), T_ENDLAT, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), T_ENDLONG, Toast.LENGTH_SHORT).show();
+
+
                 new MyAsyncTask().execute();
             }
         });
@@ -258,7 +317,7 @@ public class TripDetails extends AppCompatActivity {
             postDataParams.put("preEndTime", endtime);*/
             //Call ServerData() method to call webservice and store result in response
             postDataParams = new HashMap<String, String>();
-            postDataParams.put("startLng", String.valueOf("18.78"));
+            /*postDataParams.put("startLng", String.valueOf("18.78"));
             postDataParams.put("startAddress", "Dummy Start Address");
             postDataParams.put("vehicleType", "car");
             postDataParams.put("destLat", String.valueOf("20.45"));
@@ -266,8 +325,41 @@ public class TripDetails extends AppCompatActivity {
             postDataParams.put("startLat", String.valueOf("17.45"));
             postDataParams.put("preStartTime", "9:40");
             postDataParams.put("destAddress", "Dummy Destination Address");
-            postDataParams.put("preEndTime", "10.40");
-            response = service.ServerData(path, postDataParams);
+            postDataParams.put("preEndTime", "10.40");*/
+            postDataParams.put("locationId", location_id);
+            response = getAllMarkers.getAllMarkers(postDataParams);
+            JSONObject js1;
+            for(int i=0;i<response.length();i++)
+            {
+                try {
+                    js1=(JSONObject) response.get(i);
+                    markerId = js1.get("markerId").toString();
+                    latitude = js1.get("lat").toString();
+                    longitude = js1.get("lng").toString();
+                    locationId = js1.get("locationId").toString();
+                    description = js1.get("description").toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                myDb.insertMarkerData(markerId, latitude, longitude, locationId, description);
+            }
+            Cursor c = myDb.showMarkerData();
+
+            c.moveToFirst();
+            do{
+                dbMarkerId = c.getString(0);
+                dbLatitude = c.getString(1);
+                dbLongitude = c.getString(2);
+                dbLocationId = c.getString(3);
+                dbDescription = c.getString(4);
+
+                System.out.println("Marker Data : " + " MarkerId - " + dbMarkerId + " Latitude - " + dbLatitude + " Longitude - " + dbLongitude +
+                        " LocationId - " + dbLocationId + " Description - " +  dbDescription);
+
+            }while(c.moveToNext());
+            StaticValues.listOfAllMarkers = response;
 /*        try {
             json = new JSONObject(response);
             //Get Values from JSONobject
@@ -277,7 +369,7 @@ public class TripDetails extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }*/
-            return response;
+            return "success";
         }
 
         @Override
@@ -294,8 +386,9 @@ public class TripDetails extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            Intent sendData = new Intent(TripDetails.this, MapsActivity.class);
+            Intent testDA = new Intent(TripDetails.this, MainActivityDA.class);
+            startActivity(testDA);
+        /*    Intent sendData = new Intent(TripDetails.this, MapsActivity.class);
             sendData.putExtra("p_source", et1.getText().toString());
             sendData.putExtra("p_destination", et2.getText().toString());
             try {
@@ -308,7 +401,7 @@ public class TripDetails extends AppCompatActivity {
                 e.printStackTrace();
             }
             startActivity(sendData);
-        /*if(success==1) {
+        if(success==1) {
             Toast.makeText(getApplicationContext(), "User Added Successfully..!", Toast.LENGTH_LONG).show();
         }*/
         }

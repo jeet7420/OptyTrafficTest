@@ -35,7 +35,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE " + BASIC_DETAILS_TABLE + " (" + BDT_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT," + BDT_COL2 + " TEXT," + BDT_COL3 + " TEXT," + BDT_COL4 + " TEXT)");
-         // sqLiteDatabase.execSQL("CREATE TABLE TEST_TABLE (ID TEXT, NAME TEXT)");
+
+        sqLiteDatabase.execSQL("CREATE TABLE TRIP (ID INTEGER PRIMARY KEY AUTOINCREMENT, STARTLAT TEXT, STARTLONG TEXT, ENDLAT TEXT, ENDLONG TEXT, STARTTIME TEXT, ENDTIME TEXT, VEHICLE TEXT)");
+
+        sqLiteDatabase.execSQL("CREATE TABLE MARKER (MARKER_ID TEXT, LATITUDE TEXT, LONGITUDE TEXT, LOCATION_ID TEXT, DESCRIPTION TEXT)");
     }
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
@@ -58,10 +61,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor showData() {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String[] coloumns = {"STARTLAT", "STARTLONG", "ENDLAT", "ENDLONG", "STARTTIME", "ENDTIME", "VEHICLE"};
+            String test_name = "";
+            Cursor c = db.query("TRIP", coloumns, null, null, null, null, null);
+            return c;
+    }
+
+    public Cursor showMarkerData() {
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] coloumns = {BDT_COL1,BDT_COL2,BDT_COL3,BDT_COL4};
-        String test_name = "";
-        Cursor c = db.query(BASIC_DETAILS_TABLE, coloumns, null, null, null, null, null);
+        String[] coloumns = {"MARKER_ID", "LATITUDE", "LONGITUDE", "LOCATION_ID", "DESCRIPTION"};
+        Cursor c = db.query("MARKER", coloumns, null, null, null, null, null);
         return c;
+    }
+
+    public boolean insertMarkerData(String markerId, String latitude, String longitude, String locationId, String description)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("MARKER_ID", markerId);
+        contentValues.put("LATITUDE", latitude);
+        contentValues.put("LONGITUDE", longitude);
+        contentValues.put("LOCATION_ID", locationId);
+        contentValues.put("DESCRIPTION", description);
+        long result = db.insert("MARKER", null, contentValues);
+        if(result == -1)
+            return false;
+        else
+            return true;
+    }
+
+    public String compareCurrentLocationWithDbMarkers(String currentLat, String currentLng){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] coloumns = {"MARKER_ID"};
+        String whereClause = "LATITUDE=? AND LONGITUDE=?";
+        String[] selectionArgs = {currentLat,currentLng};
+        Cursor c = db.query("MARKER",coloumns,whereClause,selectionArgs,null,null,null,null);
+        if(c.getCount()!=0){
+            c.moveToFirst();
+            return c.getString(0);
+        }
+        return "no data";
     }
 }

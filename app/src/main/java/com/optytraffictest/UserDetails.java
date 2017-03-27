@@ -23,6 +23,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.optytraffictestDA.MainActivityDA;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -194,7 +196,7 @@ public class UserDetails extends AppCompatActivity {
             }
         });
         /*new Thread(new Runnable() {
-            @Override
+            @Overrides
             public void run() {
                 try {
                     URL url = new URL(i_url);
