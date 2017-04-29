@@ -34,10 +34,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import static com.optytraffictest.R.id.rb_car;
 import static com.optytraffictest.UserDetails.dialog_id;
 import com.optytraffictestDA.MainActivityDA;
+import com.optytraffictestDA.ServerLog;
 import com.optytraffictestDA.StaticValues;
 
 public class TripDetails extends AppCompatActivity {
@@ -147,6 +149,8 @@ public class TripDetails extends AppCompatActivity {
 
                 db.execSQL("DELETE FROM TRIP");
 
+                db.execSQL("DELETE FROM MARKER");
+
                 System.out.println("JEET : " + et1.getText().toString() + " : " + et2.getText().toString() + " : " + et3.getText().toString() + " : " + et4.getText().toString() + " : " + vehicle);
 
                 ContentValues values = new ContentValues();
@@ -174,7 +178,7 @@ public class TripDetails extends AppCompatActivity {
                     T_VEHICLE = c.getString(6);
                 }while(c.moveToNext());
 
-                System.out.println("Main Module Data : " + " STARTLAT - " + T_STARTLAT + " STARTLONG - " + T_STARTLONG + " ENDLAT - " + T_ENDLAT +
+                System.out.println("Trip Details Data : " + " STARTLAT - " + T_STARTLAT + " STARTLONG - " + T_STARTLONG + " ENDLAT - " + T_ENDLAT +
                         " ENDLONG - " + T_ENDLONG + " STARTTIME - " +  T_STARTTIME + " ENDTIME - " +  T_ENDTIME + " VEHICLE - " + T_VEHICLE);
 
                 //Toast.makeText(getApplicationContext(), "Main Module Data", Toast.LENGTH_SHORT).show();
@@ -341,8 +345,6 @@ public class TripDetails extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
                 myDb.insertMarkerData(markerId, latitude, longitude, locationId, description);
             }
             Cursor c = myDb.showMarkerData();
@@ -355,9 +357,10 @@ public class TripDetails extends AppCompatActivity {
                 dbLocationId = c.getString(3);
                 dbDescription = c.getString(4);
 
-                System.out.println("Marker Data : " + " MarkerId - " + dbMarkerId + " Latitude - " + dbLatitude + " Longitude - " + dbLongitude +
+                System.out.println("Marker Data [Trip Details] : " + " MarkerId - " + dbMarkerId + " Latitude - " + dbLatitude + " Longitude - " + dbLongitude +
                         " LocationId - " + dbLocationId + " Description - " +  dbDescription);
-
+                ServerLog.logHashMap.put(String.valueOf(ServerLog.key), dbMarkerId);
+                ServerLog.key++;
             }while(c.moveToNext());
             StaticValues.listOfAllMarkers = response;
 /*        try {
@@ -381,29 +384,35 @@ public class TripDetails extends AppCompatActivity {
                 pDialog.dismiss();
 
             JSONObject jsonResult = null;
-            try {
-                jsonResult = new JSONObject(result);
+            /*try {
+                //jsonResult = new JSONObject(result);
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
-            Intent testDA = new Intent(TripDetails.this, MainActivityDA.class);
-            startActivity(testDA);
-        /*    Intent sendData = new Intent(TripDetails.this, MapsActivity.class);
+            }*/
+            //Intent testDA = new Intent(TripDetails.this, MapsActivity.class);
+            //startActivity(testDA);
+            Intent sendData = new Intent(TripDetails.this, MapsActivity.class);
             sendData.putExtra("p_source", et1.getText().toString());
             sendData.putExtra("p_destination", et2.getText().toString());
+            sendData.putExtra("p_endlat", String.valueOf(destination_latitude));
+            sendData.putExtra("p_endlong", String.valueOf(destination_longitude));
             try {
-                    sendData.putExtra("p_suggested_time", jsonResult.get("EXACT").toString());
-                    sendData.putExtra("p_expected_time_of_journey", jsonResult.get("EXEPECTED").toString());
+                    //sendData.putExtra("p_suggested_time", jsonResult.get("EXACT").toString());
+                    //sendData.putExtra("p_expected_time_of_journey", jsonResult.get("EXEPECTED").toString());
+
+                    sendData.putExtra("p_suggested_time", "01:43");
+                    sendData.putExtra("p_expected_time_of_journey", "20 mins");
+                    sendData.putExtra("p_start_time", et3.getText().toString());
 
                 //sendData.putExtra("p_suggested_time", "10:00");
                 //sendData.putExtra("p_expected_time_of_journey", "20 mins");
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             startActivity(sendData);
-        if(success==1) {
-            Toast.makeText(getApplicationContext(), "User Added Successfully..!", Toast.LENGTH_LONG).show();
-        }*/
+        //if(success==1) {
+          //  Toast.makeText(getApplicationContext(), "User Added Successfully..!", Toast.LENGTH_LONG).show();
+        //}
         }
     }
 

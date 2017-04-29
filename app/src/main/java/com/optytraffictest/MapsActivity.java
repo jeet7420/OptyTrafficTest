@@ -1,10 +1,14 @@
 package com.optytraffictest;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -24,9 +28,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.optytraffictestDA.MainActivityDA;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 //import Modules.DirectionFinder;
@@ -49,13 +59,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ProgressDialog progressDialog;
     public String origin;
     public String destination;
+    public String endlat;
+    public String endlong;
     public String suggested_time;
     public String expected_time_of_journey;
-
+    public String start_time;
+    private Context context;
+    String hour, min;
+    String time[];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        this.context = this;
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -72,14 +88,74 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         destination = i.getStringExtra("p_destination");
         suggested_time = i.getStringExtra("p_suggested_time");
         expected_time_of_journey = i.getStringExtra("p_expected_time_of_journey");
+        endlat = i.getStringExtra("p_endlat");
+        endlong = i.getStringExtra("p_endlong");
+        start_time = i.getStringExtra("p_start_time");
 
+        time = start_time.split(":");
+        hour = time[0];
+        min = time[1];
+        if(hour.length()==1)
+            hour = "0" + hour;
+        if(min.length()==1)
+            min = "0" + min;
+
+        System.out.println("HOUR -> " + hour);
+        System.out.println("MIN -> " + min);
+
+        System.out.println("INSIDE MAPS ACTIVITY");
         System.out.println(origin);
         System.out.println(destination);
         System.out.println(suggested_time);
         System.out.println(expected_time_of_journey);
+        System.out.println(start_time);
         tv_time.setText(suggested_time);
         sendRequest();
+        alarmManager();
     }
+
+    private void alarmManager() {
+        Calendar cur_cal = new GregorianCalendar();
+        cur_cal.setTimeInMillis(System.currentTimeMillis());//set the current time and date for this calendar
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        //cal.add(Calendar.DAY_OF_YEAR, cur_cal.get(Calendar.DAY_OF_YEAR));
+        //System.out.println("TIME : " + Integer.parseInt(suggested_time.substring(0,2)));
+        //System.out.println("TIME : " + Integer.parseInt(suggested_time.substring(3,5)));
+        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour));
+        cal.set(Calendar.MINUTE, Integer.parseInt(min));
+        //cal.set(Calendar.SECOND, cur_cal.get(Calendar.SECOND));
+        //cal.set(Calendar.MILLISECOND, cur_cal.get(Calendar.MILLISECOND));
+        //cal.set(Calendar.DATE, cur_cal.get(Calendar.DATE));
+        //cal.set(Calendar.MONTH, cur_cal.get(Calendar.MONTH));
+        Intent triggerDAModule = new Intent(this.context, AlarmReceiver.class);
+        triggerDAModule.putExtra("p_endlat", endlat);
+        triggerDAModule.putExtra("p_endlong", endlong);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.context, 0, triggerDAModule, 0);
+        AlarmManager alarmManager = (AlarmManager)this.context.getSystemService(Context.ALARM_SERVICE);
+
+
+        /*Calendar calender = Calendar.getInstance();
+
+        String sDate = calender.get(Calendar.YEAR) + "-"
+                + calender.get(Calendar.MONTH)
+                + "-" + calender.get(Calendar.DAY_OF_MONTH)
+                + " at " + calender.get(Calendar.HOUR_OF_DAY)
+                + ":" + calender.get(Calendar.MINUTE);
+
+        calender.set(Calendar.SECOND, Calendar.SECOND);
+        calender.set(Calendar.MINUTE, Calendar.MINUTE);
+        calender.set(Calendar.HOUR, Calendar.HOUR_OF_DAY);
+        //calender.set(Calendar.AM_PM, Calendar.AM);
+
+        System.out.println("JEETTIME : " + String.valueOf(calender.getTime()));
+
+        System.out.println("JEETTIME : " + sDate);*/
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+    }
+
 
     private void sendRequest() {
         //origin = etOrigin.getText().toString();

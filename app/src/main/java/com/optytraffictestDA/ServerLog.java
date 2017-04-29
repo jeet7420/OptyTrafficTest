@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 
 /**
@@ -21,6 +22,7 @@ import java.util.HashMap;
 public class ServerLog {
 
     public static HashMap<String,String> logHashMap=new HashMap<String, String>();
+    //public static HashMap<String, LinkedHashMap> sendLinkedHashMap=new HashMap<String, LinkedHashMap>();
     public static int status = 0;
     public static int key = 0;
 
@@ -28,6 +30,7 @@ public class ServerLog {
         status = 1;
         String input;
         JSONArray  al=null;
+        String response = null;
         try {
             URL url = new URL("http://brings.co.in/OptiTraffic/rest/MessageService/Message");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -55,7 +58,8 @@ public class ServerLog {
             String jsonText = readAll(br);
             JSONObject js1=null;
             JSONObject json = new JSONObject(jsonText);
-            al=(JSONArray)json.getJSONArray("response");
+            //al=(JSONArray)json.getJSONArray("response");
+            response = json.get("response").toString();
             conn.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
